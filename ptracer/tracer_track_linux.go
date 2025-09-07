@@ -8,7 +8,7 @@ import (
 
 	unix "golang.org/x/sys/unix"
 
-	"github.com/criyle/go-sandbox/runner"
+	"github.com/tobiichi3227/go-sandbox/runner"
 )
 
 // Trace start and traces all child process by runner in the calling goroutine

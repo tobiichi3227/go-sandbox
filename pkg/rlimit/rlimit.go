@@ -6,7 +6,7 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/criyle/go-sandbox/runner"
+	"github.com/tobiichi3227/go-sandbox/runner"
 )
 
 // RLimits defines the rlimit applied by setrlimit syscall to traced process

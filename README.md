@@ -1,21 +1,21 @@
 # go-sandbox
 
-[![GoDoc](https://godoc.org/github.com/criyle/go-sandbox?status.svg)](https://godoc.org/github.com/criyle/go-sandbox) [![Go Report Card](https://goreportcard.com/badge/github.com/criyle/go-sandbox)](https://goreportcard.com/report/github.com/criyle/go-sandbox) [![Release](https://img.shields.io/github/v/tag/criyle/go-sandbox)](https://github.com/criyle/go-sandbox/releases/latest)
+[![GoDoc](https://godoc.org/github.com/tobiichi3227/go-sandbox?status.svg)](https://godoc.org/github.com/tobiichi3227/go-sandbox) [![Go Report Card](https://goreportcard.com/badge/github.com/tobiichi3227/go-sandbox)](https://goreportcard.com/report/github.com/tobiichi3227/go-sandbox) [![Release](https://img.shields.io/github/v/tag/tobiichi3227/go-sandbox)](https://github.com/tobiichi3227/go-sandbox/releases/latest)
 
 Original goal was to replica [uoj-judger/run_program](https://github.com/vfleaking/uoj) in GO language using [libseccomp](https://github.com/pkg/seccomp/libseccomp-golang). As technology grows, it also implements new technologies including Linux namespace and cgroup.
 
 The idea of rootfs and interval CPU usage checking comes from [syzoj/judge-v3](https://github.com/syzoj/judge-v3) and the pooled pre-forked container comes from [vijos/jd4](https://github.com/vijos/jd4).
 
-If you are looking for sandbox implementation via REST / gRPC API, please check [go-judge](https://github.com/criyle/go-judge).
+If you are looking for sandbox implementation via REST / gRPC API, please check [go-judge](https://github.com/tobiichi3227/go-judge).
 
 Notice: Only works on Linux since ptrace, unshare, cgroup are available only on Linux
 
 ## Build & Install
 
 - install latest go compiler from [golang/download](https://golang.org/dl/)
-- download repository: `git clone githuc.com/criyle/go-sandbox`
-- build: `go build ./cmd/runprog` 
-- or install directly: `go install github.com/criyle/go-sandbox/cmd/runprog@latest`
+- download repository: `git clone githuc.com/tobiichi3227/go-sandbox`
+- build: `go build ./cmd/runprog`
+- or install directly: `go install github.com/tobiichi3227/go-sandbox/cmd/runprog@latest`
 
 ## Technologies
 
@@ -195,7 +195,7 @@ type Environment interface {
 - 5.7: `clone3` with `CLONE_INTO_CGROUP`
 - 5.3: `clone3`
 - 4.15: cgroup v2 (also need support in the Linux distribution)
-- 4.14: SECCOMP_RET_KILL_PROCESS 
+- 4.14: SECCOMP_RET_KILL_PROCESS
 - 4.6: CLONE_NEWCGROUP
 - 3.19: execveat()
 - 3.17: seccomp, memfd_create
@@ -212,7 +212,7 @@ type Environment interface {
 $ go test -bench . -benchtime 10s
 goos: linux
 goarch: amd64
-pkg: github.com/criyle/go-sandbox/pkg/forkexec
+pkg: github.com/tobiichi3227/go-sandbox/pkg/forkexec
 BenchmarkSimpleFork-4              	   12409	    996096 ns/op
 BenchmarkUnsharePid-4              	   10000	   1065168 ns/op
 BenchmarkUnshareUser-4             	   10000	   1061770 ns/op
@@ -225,7 +225,7 @@ BenchmarkFastUnshareMountPivot-4   	     612	  20967318 ns/op
 BenchmarkUnshareAll-4              	     837	  14047995 ns/op
 BenchmarkUnshareMountPivot-4       	     488	  24198331 ns/op
 PASS
-ok  	github.com/criyle/go-sandbox/pkg/forkexec	147.186s
+ok  	github.com/tobiichi3227/go-sandbox/pkg/forkexec	147.186s
 ```
 
 ### Container
@@ -234,10 +234,10 @@ ok  	github.com/criyle/go-sandbox/pkg/forkexec	147.186s
 $ go test -bench . -benchtime 10s
 goos: linux
 goarch: amd64
-pkg: github.com/criyle/go-sandbox/container
+pkg: github.com/tobiichi3227/go-sandbox/container
 BenchmarkContainer-4   	    5907	   2062070 ns/op
 PASS
-ok  	github.com/criyle/go-sandbox/container	21.763s
+ok  	github.com/tobiichi3227/go-sandbox/container	21.763s
 ```
 
 ### Cgroup
@@ -246,10 +246,10 @@ ok  	github.com/criyle/go-sandbox/container	21.763s
 $ go test -bench . -benchtime 10s
 goos: linux
 goarch: amd64
-pkg: github.com/criyle/go-sandbox/pkg/cgroup
+pkg: github.com/tobiichi3227/go-sandbox/pkg/cgroup
 BenchmarkCgroup-4   	   50283	    245094 ns/op
 PASS
-ok  	github.com/criyle/go-sandbox/pkg/cgroup	14.744s
+ok  	github.com/tobiichi3227/go-sandbox/pkg/cgroup	14.744s
 ```
 
 ### Socket
@@ -260,7 +260,7 @@ Blocking:
 $ go test -bench . -benchtime 10s
 goos: linux
 goarch: amd64
-pkg: github.com/criyle/go-sandbox/pkg/unixsocket
+pkg: github.com/tobiichi3227/go-sandbox/pkg/unixsocket
 cpu: Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz
 BenchmarkBaseline-8             12170148              1048 ns/op
 BenchmarkGoroutine-8             2658846              4910 ns/op
@@ -269,7 +269,7 @@ BenchmarkChannelBuffed-8         8767264              1357 ns/op
 BenchmarkChannelBuffed4-8        9670935              1230 ns/op
 BenchmarkEmptyGoroutine-8       34927512               342.8 ns/op
 PASS
-ok      github.com/criyle/go-sandbox/pkg/unixsocket     83.669s
+ok      github.com/tobiichi3227/go-sandbox/pkg/unixsocket     83.669s
 ```
 
 Non-block:
@@ -278,7 +278,7 @@ Non-block:
 $ go test -bench . -benchtime 10s
 goos: linux
 goarch: amd64
-pkg: github.com/criyle/go-sandbox/pkg/unixsocket
+pkg: github.com/tobiichi3227/go-sandbox/pkg/unixsocket
 cpu: Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz
 BenchmarkBaseline-8             11609772              1001 ns/op
 BenchmarkGoroutine-8             2470767              4788 ns/op
@@ -287,5 +287,5 @@ BenchmarkChannelBuffed-8         8876050              1345 ns/op
 BenchmarkChannelBuffed4-8        9813187              1212 ns/op
 BenchmarkEmptyGoroutine-8       34852828               342.2 ns/op
 PASS
-ok      github.com/criyle/go-sandbox/pkg/unixsocket     81.679s
+ok      github.com/tobiichi3227/go-sandbox/pkg/unixsocket     81.679s
 ```

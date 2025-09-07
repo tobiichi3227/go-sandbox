@@ -8,9 +8,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/criyle/go-sandbox/pkg/forkexec"
-	"github.com/criyle/go-sandbox/pkg/rlimit"
-	"github.com/criyle/go-sandbox/runner"
+	"github.com/tobiichi3227/go-sandbox/pkg/forkexec"
+	"github.com/tobiichi3227/go-sandbox/pkg/rlimit"
+	"github.com/tobiichi3227/go-sandbox/runner"
 	"golang.org/x/sys/unix"
 )
 

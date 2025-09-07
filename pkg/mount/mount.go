@@ -8,6 +8,7 @@ import (
 type Mount struct {
 	Source, Target, FsType, Data string
 	Flags                        uintptr
+	IgnoreErr                    bool
 }
 
 // SyscallParams defines the raw syscall arguments to mount
@@ -16,6 +17,7 @@ type SyscallParams struct {
 	Flags                        uintptr
 	Prefixes                     []*byte
 	MakeNod                      bool
+	IgnoreErr                    bool
 }
 
 // ToSyscall convert Mount to SyscallPrams
@@ -45,12 +47,13 @@ func (m *Mount) ToSyscall() (*SyscallParams, error) {
 		return nil, err
 	}
 	return &SyscallParams{
-		Source:   source,
-		Target:   target,
-		FsType:   fsType,
-		Flags:    m.Flags,
-		Data:     data,
-		Prefixes: paths,
+		Source:    source,
+		Target:    target,
+		FsType:    fsType,
+		Flags:     m.Flags,
+		Data:      data,
+		Prefixes:  paths,
+		IgnoreErr: m.IgnoreErr,
 	}, nil
 }
 

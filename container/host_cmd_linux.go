@@ -6,7 +6,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/criyle/go-sandbox/pkg/unixsocket"
+	"github.com/tobiichi3227/go-sandbox/pkg/unixsocket"
 )
 
 // Ping send ping message to container, wait for 3 second before timeout

@@ -5,8 +5,8 @@ import (
 	"syscall"
 	"unsafe"
 
-	"github.com/criyle/go-sandbox/pkg/forkexec/vfork"
-	"github.com/criyle/go-sandbox/pkg/rlimit"
+	"github.com/tobiichi3227/go-sandbox/pkg/forkexec/vfork"
+	"github.com/tobiichi3227/go-sandbox/pkg/rlimit"
 	"golang.org/x/sys/unix"
 )
 
@@ -241,13 +241,13 @@ func forkAndExecInChild(r *Runner, argv0 *byte, argv, env []*byte, workdir, host
 			for j, p := range m.Prefixes {
 				// if target mount point is a file, mknod(target)
 				if j == len(m.Prefixes)-1 && m.MakeNod {
-					_, _, err1 = syscall.RawSyscall(syscall.SYS_MKNODAT, uintptr(_AT_FDCWD), uintptr(unsafe.Pointer(p)), 0755)
+					_, _, err1 = syscall.RawSyscall(syscall.SYS_MKNODAT, uintptr(_AT_FDCWD), uintptr(unsafe.Pointer(p)), 0o755)
 					if err1 != 0 && err1 != syscall.EEXIST {
 						childExitErrorWithIndex(pipe, LocMountMkdir, i, err1)
 					}
 					break
 				}
-				_, _, err1 = syscall.RawSyscall(syscall.SYS_MKDIRAT, uintptr(_AT_FDCWD), uintptr(unsafe.Pointer(p)), 0755)
+				_, _, err1 = syscall.RawSyscall(syscall.SYS_MKDIRAT, uintptr(_AT_FDCWD), uintptr(unsafe.Pointer(p)), 0o755)
 				if err1 != 0 && err1 != syscall.EEXIST {
 					childExitErrorWithIndex(pipe, LocMountMkdir, i, err1)
 				}
@@ -256,7 +256,7 @@ func forkAndExecInChild(r *Runner, argv0 *byte, argv, env []*byte, workdir, host
 			_, _, err1 = syscall.RawSyscall6(syscall.SYS_MOUNT, uintptr(unsafe.Pointer(m.Source)),
 				uintptr(unsafe.Pointer(m.Target)), uintptr(unsafe.Pointer(m.FsType)), uintptr(m.Flags),
 				uintptr(unsafe.Pointer(m.Data)), 0)
-			if err1 != 0 {
+			if !m.IgnoreErr && err1 != 0 {
 				childExitErrorWithIndex(pipe, LocMount, i, err1)
 			}
 			// bind mount is not respect ro flag so that read-only bind mount needs remount
@@ -273,7 +273,7 @@ func forkAndExecInChild(r *Runner, argv0 *byte, argv, env []*byte, workdir, host
 		// pivot_root
 		if pivotRoot != nil {
 			// mkdir("old_root")
-			_, _, err1 = syscall.RawSyscall(syscall.SYS_MKDIRAT, uintptr(_AT_FDCWD), uintptr(unsafe.Pointer(&oldRoot[0])), 0755)
+			_, _, err1 = syscall.RawSyscall(syscall.SYS_MKDIRAT, uintptr(_AT_FDCWD), uintptr(unsafe.Pointer(&oldRoot[0])), 0o755)
 			if err1 != 0 {
 				childExitError(pipe, LocPivotRoot, err1)
 			}

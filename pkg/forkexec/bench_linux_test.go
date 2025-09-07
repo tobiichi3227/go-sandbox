@@ -5,7 +5,7 @@ import (
 	"syscall"
 	"testing"
 
-	"github.com/criyle/go-sandbox/pkg/mount"
+	"github.com/tobiichi3227/go-sandbox/pkg/mount"
 	"golang.org/x/sys/unix"
 )
 
@@ -15,9 +15,7 @@ const (
 	roBind = unix.MS_BIND | unix.MS_NOSUID | unix.MS_PRIVATE | unix.MS_RDONLY
 )
 
-var (
-	defaultBind = []string{"/usr", "/lib", "/lib64", "/bin"}
-)
+var defaultBind = []string{"/usr", "/lib", "/lib64", "/bin"}
 
 func BenchmarkStdFork(b *testing.B) {
 	f := openNull(b)
@@ -200,7 +198,7 @@ func getMounts(dirs []string) []mount.SyscallParams {
 }
 
 func openNull(b *testing.B) *os.File {
-	f, err := os.OpenFile("/dev/null", os.O_RDWR, 0666)
+	f, err := os.OpenFile("/dev/null", os.O_RDWR, 0o666)
 	if err != nil {
 		b.Errorf("Failed to open %v", err)
 	}

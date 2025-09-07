@@ -5,9 +5,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/criyle/go-sandbox/pkg/forkexec"
-	"github.com/criyle/go-sandbox/pkg/unixsocket"
-	"github.com/criyle/go-sandbox/runner"
+	"github.com/tobiichi3227/go-sandbox/pkg/forkexec"
+	"github.com/tobiichi3227/go-sandbox/pkg/unixsocket"
+	"github.com/tobiichi3227/go-sandbox/runner"
 )
 
 func (c *containerServer) handleExecve(cmd *execCmd, msg unixsocket.Msg) error {

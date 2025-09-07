@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/criyle/go-sandbox/pkg/unixsocket"
+	"github.com/tobiichi3227/go-sandbox/pkg/unixsocket"
 )
 
 func (c *containerServer) handlePing() error {

@@ -12,7 +12,7 @@ import (
 	"sync"
 	"syscall"
 
-	"github.com/criyle/go-sandbox/pkg/unixsocket"
+	"github.com/tobiichi3227/go-sandbox/pkg/unixsocket"
 )
 
 type containerServer struct {
@@ -269,7 +269,7 @@ func initFileSystem(c containerConfig) error {
 	}
 	// pivot root
 	const oldRoot = "old_root"
-	if err := os.Mkdir(oldRoot, 0755); err != nil {
+	if err := os.Mkdir(oldRoot, 0o755); err != nil {
 		return fmt.Errorf("init_fs: mkdir old_root: %w", err)
 	}
 	if err := syscall.PivotRoot(c.ContainerRoot, oldRoot); err != nil {
@@ -285,7 +285,7 @@ func initFileSystem(c containerConfig) error {
 	for _, l := range c.SymbolicLinks {
 		// ensure dir exists
 		dir := filepath.Dir(l.LinkPath)
-		if err := os.MkdirAll(dir, 0755); err != nil {
+		if err := os.MkdirAll(dir, 0o755); err != nil {
 			return fmt.Errorf("init_fs: mkdir_all(%s): %w", dir, err)
 		}
 		if err := os.Symlink(l.Target, l.LinkPath); err != nil {

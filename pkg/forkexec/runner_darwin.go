@@ -1,7 +1,7 @@
 package forkexec
 
 import (
-	"github.com/criyle/go-sandbox/pkg/rlimit"
+	"github.com/tobiichi3227/go-sandbox/pkg/rlimit"
 )
 
 // Runner is the configuration including the exec path, argv

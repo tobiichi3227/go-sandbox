@@ -5,7 +5,7 @@ import (
 	"encoding/gob"
 	"fmt"
 
-	"github.com/criyle/go-sandbox/pkg/unixsocket"
+	"github.com/tobiichi3227/go-sandbox/pkg/unixsocket"
 )
 
 // 16k buffer size

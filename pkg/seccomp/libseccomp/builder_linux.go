@@ -3,8 +3,8 @@ package libseccomp
 import (
 	"syscall"
 
-	"github.com/criyle/go-sandbox/pkg/seccomp"
 	libseccomp "github.com/elastic/go-seccomp-bpf"
+	"github.com/tobiichi3227/go-sandbox/pkg/seccomp"
 	"golang.org/x/net/bpf"
 )
 

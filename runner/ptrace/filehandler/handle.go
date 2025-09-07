@@ -1,7 +1,7 @@
 package filehandler
 
 import (
-	"github.com/criyle/go-sandbox/ptracer"
+	"github.com/tobiichi3227/go-sandbox/ptracer"
 )
 
 // Handler defines file access restricted handler to call the ptrace

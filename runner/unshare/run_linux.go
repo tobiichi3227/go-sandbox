@@ -8,8 +8,8 @@ import (
 
 	"golang.org/x/sys/unix"
 
-	"github.com/criyle/go-sandbox/pkg/forkexec"
-	"github.com/criyle/go-sandbox/runner"
+	"github.com/tobiichi3227/go-sandbox/pkg/forkexec"
+	"github.com/tobiichi3227/go-sandbox/runner"
 )
 
 const (

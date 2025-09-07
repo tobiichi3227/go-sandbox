@@ -3,7 +3,7 @@ package libseccomp
 import (
 	"testing"
 
-	"github.com/criyle/go-sandbox/pkg/seccomp"
+	"github.com/tobiichi3227/go-sandbox/pkg/seccomp"
 )
 
 var (

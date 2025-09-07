@@ -1,10 +1,11 @@
 package config
 
-import "github.com/criyle/go-sandbox/runner/ptrace/filehandler"
+import "github.com/tobiichi3227/go-sandbox/runner/ptrace/filehandler"
 
 // GetConf return file access check set, syscall counter, allow and traced syscall arrays and new args
 func GetConf(pType, workPath string, args, addRead, addWrite []string,
-	allowProc bool) ([]string, []string, []string, *filehandler.Handler) {
+	allowProc bool,
+) ([]string, []string, []string, *filehandler.Handler) {
 	var (
 		fs    = filehandler.NewFileSets()
 		sc    = filehandler.NewSyscallCounter()

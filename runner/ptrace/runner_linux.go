@@ -3,10 +3,10 @@ package ptrace
 import (
 	"syscall"
 
-	"github.com/criyle/go-sandbox/pkg/rlimit"
-	"github.com/criyle/go-sandbox/pkg/seccomp"
-	"github.com/criyle/go-sandbox/ptracer"
-	"github.com/criyle/go-sandbox/runner"
+	"github.com/tobiichi3227/go-sandbox/pkg/rlimit"
+	"github.com/tobiichi3227/go-sandbox/pkg/seccomp"
+	"github.com/tobiichi3227/go-sandbox/ptracer"
+	"github.com/tobiichi3227/go-sandbox/runner"
 )
 
 // Runner defines the spec to run a program safely by ptracer

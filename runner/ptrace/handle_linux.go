@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"syscall"
 
-	"github.com/criyle/go-sandbox/pkg/seccomp/libseccomp"
-	"github.com/criyle/go-sandbox/ptracer"
+	"github.com/tobiichi3227/go-sandbox/pkg/seccomp/libseccomp"
+	"github.com/tobiichi3227/go-sandbox/ptracer"
 )
 
 type tracerHandler struct {

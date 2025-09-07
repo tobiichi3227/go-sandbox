@@ -5,7 +5,7 @@ import (
 	"syscall"
 	"testing"
 
-	"github.com/criyle/go-sandbox/pkg/mount"
+	"github.com/tobiichi3227/go-sandbox/pkg/mount"
 )
 
 func TestFork_DropCaps(t *testing.T) {
@@ -31,7 +31,7 @@ func TestFork_ETXTBSY(t *testing.T) {
 		f.Close()
 	})
 
-	if err := f.Chmod(0777); err != nil {
+	if err := f.Chmod(0o777); err != nil {
 		t.Fatal(err)
 	}
 
@@ -68,7 +68,7 @@ func TestFork_OK(t *testing.T) {
 	}
 	defer os.Remove(f.Name())
 
-	if err := f.Chmod(0777); err != nil {
+	if err := f.Chmod(0o777); err != nil {
 		t.Fatal(err)
 	}
 

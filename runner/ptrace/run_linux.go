@@ -4,9 +4,9 @@ import (
 	"context"
 	"os"
 
-	"github.com/criyle/go-sandbox/pkg/forkexec"
-	"github.com/criyle/go-sandbox/ptracer"
-	"github.com/criyle/go-sandbox/runner"
+	"github.com/tobiichi3227/go-sandbox/pkg/forkexec"
+	"github.com/tobiichi3227/go-sandbox/ptracer"
+	"github.com/tobiichi3227/go-sandbox/runner"
 )
 
 // Run starts the tracing process

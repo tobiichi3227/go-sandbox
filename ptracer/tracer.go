@@ -1,6 +1,6 @@
 package ptracer
 
-import "github.com/criyle/go-sandbox/runner"
+import "github.com/tobiichi3227/go-sandbox/runner"
 
 // TraceAction defines the action returned by TraceHandle
 type TraceAction int

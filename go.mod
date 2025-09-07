@@ -1,4 +1,4 @@
-module github.com/criyle/go-sandbox
+module github.com/tobiichi3227/go-sandbox
 
 go 1.24
 

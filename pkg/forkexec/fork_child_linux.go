@@ -305,6 +305,25 @@ func forkAndExecInChild(r *Runner, argv0 *byte, argv, env []*byte, workdir, host
 				childExitError(pipe, LocPivotRoot, err1)
 			}
 		}
+
+		// performing mask path
+		for i, m := range r.MaskPathMounts {
+			_, _, err1 = syscall.RawSyscall6(syscall.SYS_MOUNT, uintptr(unsafe.Pointer(&devnull[0])),
+				uintptr(unsafe.Pointer(m.Target)), uintptr(unsafe.Pointer(&empty[0])), uintptr(syscall.MS_BIND),
+				uintptr(unsafe.Pointer(m.Data)), 0)
+			if err1 != 0 && err1 != syscall.ENOENT {
+				if err1 == syscall.ENOTDIR {
+					_, _, err1 = syscall.RawSyscall6(syscall.SYS_MOUNT, uintptr(unsafe.Pointer(&tmpfs[0])),
+						uintptr(unsafe.Pointer(m.Target)), uintptr(unsafe.Pointer(&tmpfs[0])), uintptr(syscall.MS_RDONLY),
+						uintptr(unsafe.Pointer(m.Data)), 0)
+					if err1 != 0 {
+						childExitErrorWithIndex(pipe, LocMount, i, err1)
+					}
+				} else {
+					childExitErrorWithIndex(pipe, LocMount, i, err1)
+				}
+			}
+		}
 	}
 
 	// SetHostName

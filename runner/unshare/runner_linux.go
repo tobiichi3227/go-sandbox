@@ -37,6 +37,8 @@ type Runner struct {
 	// Mount syscalls
 	Mounts []mount.SyscallParams
 
+	MaskPaths []string
+
 	// hostname & domainname
 	HostName, DomainName string
 
@@ -45,4 +47,6 @@ type Runner struct {
 
 	// Use by cgroup to add proc
 	SyncFunc func(pid int) error
+
+	CgroupFD uintptr
 }

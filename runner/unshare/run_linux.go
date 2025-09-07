@@ -9,6 +9,7 @@ import (
 	"golang.org/x/sys/unix"
 
 	"github.com/tobiichi3227/go-sandbox/pkg/forkexec"
+	"github.com/tobiichi3227/go-sandbox/pkg/mount"
 	"github.com/tobiichi3227/go-sandbox/runner"
 )
 
@@ -19,22 +20,36 @@ const (
 
 // Run starts the unshared process
 func (r *Runner) Run(c context.Context) (result runner.Result) {
+	maskPathM := make([]mount.SyscallParams, 0, len(r.MaskPaths))
+	for _, path := range r.MaskPaths {
+		syscall, err := (&mount.Mount{
+			Source: "",
+			Target: path,
+			Data:   "",
+		}).ToSyscall()
+		if err == nil {
+			maskPathM = append(maskPathM, *syscall)
+		}
+	}
+
 	ch := &forkexec.Runner{
-		Args:       r.Args,
-		Env:        r.Env,
-		ExecFile:   r.ExecFile,
-		RLimits:    r.RLimits,
-		Files:      r.Files,
-		WorkDir:    r.WorkDir,
-		Seccomp:    r.Seccomp.SockFprog(),
-		NoNewPrivs: true,
-		CloneFlags: UnshareFlags,
-		Mounts:     r.Mounts,
-		HostName:   r.HostName,
-		DomainName: r.DomainName,
-		PivotRoot:  r.Root,
-		DropCaps:   true,
-		SyncFunc:   r.SyncFunc,
+		Args:           r.Args,
+		Env:            r.Env,
+		ExecFile:       r.ExecFile,
+		RLimits:        r.RLimits,
+		Files:          r.Files,
+		WorkDir:        r.WorkDir,
+		Seccomp:        r.Seccomp.SockFprog(),
+		NoNewPrivs:     true,
+		CloneFlags:     UnshareFlags,
+		Mounts:         r.Mounts,
+		HostName:       r.HostName,
+		DomainName:     r.DomainName,
+		PivotRoot:      r.Root,
+		DropCaps:       true,
+		SyncFunc:       r.SyncFunc,
+		CgroupFd:       r.CgroupFD,
+		MaskPathMounts: maskPathM,
 
 		UnshareCgroupAfterSync: true,
 	}

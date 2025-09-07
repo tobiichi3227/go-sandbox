@@ -41,6 +41,8 @@ type Runner struct {
 	// and pivot root will mount as tmpfs before any mount
 	Mounts []mount.SyscallParams
 
+	MaskPathMounts []mount.SyscallParams
+
 	// pivot_root defines a readonly new root after unshare mount namespace
 	// it should be a directory in absolute path and should used with mounts
 	// Call path:

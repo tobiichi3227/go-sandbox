@@ -20,10 +20,11 @@ const (
 
 // used by unshare remount / to private
 var (
-	none  = []byte("none\000")
-	slash = []byte("/\000")
-	empty = []byte("\000")
-	tmpfs = []byte("tmpfs\000")
+	none    = []byte("none\000")
+	slash   = []byte("/\000")
+	empty   = []byte("\000")
+	tmpfs   = []byte("tmpfs\000")
+	devnull = []byte("/dev/null\000")
 
 	// tmp dir made by pivot_root
 	oldRoot = []byte("old_root\000")

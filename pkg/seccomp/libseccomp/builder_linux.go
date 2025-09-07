@@ -10,11 +10,9 @@ import (
 
 // Builder is used to build the filter
 type Builder struct {
-	Allow, Trace []string
-	Default      Action
+	Allow, Kill []string
+	Default     Action
 }
-
-var actTrace = libseccomp.ActionTrace
 
 // Build builds the filter
 func (b *Builder) Build() (seccomp.Filter, error) {
@@ -26,8 +24,8 @@ func (b *Builder) Build() (seccomp.Filter, error) {
 				Names:  b.Allow,
 			},
 			{
-				Action: actTrace,
-				Names:  b.Trace,
+				Action: libseccomp.ActionKillProcess,
+				Names:  b.Kill,
 			},
 		},
 	}

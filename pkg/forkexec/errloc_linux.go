@@ -32,6 +32,7 @@ const (
 	LocMountRoot
 	LocMountTmpfs
 	LocMountChdir
+	LocReMount
 	LocMount
 	LocMountMkdir
 	LocPivotRoot
@@ -68,6 +69,7 @@ var locToString = []string{
 	"mount(root)",
 	"mount(tmpfs)",
 	"mount(chdir)",
+	"mount(remount)",
 	"mount",
 	"mount(mkdir)",
 	"pivot_root",

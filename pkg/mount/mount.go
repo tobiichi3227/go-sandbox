@@ -16,6 +16,7 @@ type SyscallParams struct {
 	Flags                        uintptr
 	Prefixes                     []*byte
 	MakeNod                      bool
+	IsProc                       bool
 }
 
 // ToSyscall convert Mount to SyscallPrams
@@ -51,6 +52,7 @@ func (m *Mount) ToSyscall() (*SyscallParams, error) {
 		Flags:    m.Flags,
 		Data:     data,
 		Prefixes: paths,
+		IsProc:   m.FsType == "proc",
 	}, nil
 }
 

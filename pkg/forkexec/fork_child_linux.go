@@ -260,12 +260,20 @@ func forkAndExecInChild(r *Runner, argv0 *byte, argv, env []*byte, workdir, host
 				childExitErrorWithIndex(pipe, LocMount, i, err1)
 			}
 			// bind mount is not respect ro flag so that read-only bind mount needs remount
-			if m.Flags&bindRo == bindRo {
-				_, _, err1 = syscall.RawSyscall6(syscall.SYS_MOUNT, uintptr(unsafe.Pointer(&empty[0])),
-					uintptr(unsafe.Pointer(m.Target)), uintptr(unsafe.Pointer(m.FsType)),
-					uintptr(m.Flags|syscall.MS_REMOUNT), uintptr(unsafe.Pointer(m.Data)), 0)
+			if m.Flags&bindRo == bindRo && !m.IsProc {
+				const mask = syscall.MS_NOSUID | syscall.MS_NODEV | syscall.MS_NOEXEC | syscall.MS_NOATIME | syscall.MS_NODIRATIME | syscall.MS_RELATIME
+				var s syscall.Statfs_t
+				_, _, err1 = syscall.RawSyscall(syscall.SYS_STATFS, uintptr(unsafe.Pointer(m.Source)), uintptr(unsafe.Pointer(&s)), 0)
 				if err1 != 0 {
-					childExitErrorWithIndex(pipe, LocMount, i, err1)
+					childExitErrorWithIndex(pipe, LocReMount, i, err1)
+				}
+				m.Flags &^= syscall.MS_PRIVATE | syscall.MS_REC
+				flag := m.Flags | syscall.MS_REMOUNT | uintptr(s.Flags&mask)
+				_, _, err1 = syscall.RawSyscall6(syscall.SYS_MOUNT, uintptr(unsafe.Pointer(&empty[0])),
+					uintptr(unsafe.Pointer(m.Target)), uintptr(0),
+					uintptr(flag), uintptr(0), 0)
+				if err1 != 0 {
+					childExitErrorWithIndex(pipe, LocReMount, i, err1)
 				}
 			}
 		}

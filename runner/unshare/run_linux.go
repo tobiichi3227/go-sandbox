@@ -110,7 +110,23 @@ func (r *Runner) Run(c context.Context) (result runner.Result) {
 			status = runner.StatusTimeLimitExceeded
 		}
 		if userMem > r.Limit.MemoryLimit {
-			status = runner.StatusMemoryLimitExceeded
+			if wstatus.Signaled() {
+				sig := wstatus.Signal()
+				switch sig {
+				case unix.SIGXCPU, unix.SIGKILL:
+					status = runner.StatusTimeLimitExceeded
+				case unix.SIGXFSZ:
+					status = runner.StatusOutputLimitExceeded
+				case unix.SIGSYS:
+					status = runner.StatusDisallowedSyscall
+				default:
+					status = runner.StatusSignalled
+				}
+				result.Status = status
+				result.ExitStatus = int(sig)
+			} else {
+				status = runner.StatusMemoryLimitExceeded
+			}
 		}
 		result = runner.Result{
 			Status: status,

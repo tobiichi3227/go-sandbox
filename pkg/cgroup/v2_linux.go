@@ -167,6 +167,27 @@ func (c *V2) ProcessPeak() (uint64, error) {
 	return c.ReadUint("pids.peak")
 }
 
+// OOMEventCount reads total OOM kill count from memory.events
+func (c *V2) OOMEventCount() (uint64, error) {
+	if !c.control.Memory {
+		return 0, ErrNotInitialized
+	}
+	b, err := c.ReadFile("memory.events")
+	if err != nil {
+		return 0, err
+	}
+	// Parse memory.events file for oom_kill count
+	// Format: "oom_kill <count>"
+	lines := strings.Split(string(b), "\n")
+	for _, line := range lines {
+		fields := strings.Fields(line)
+		if len(fields) >= 2 && fields[0] == "oom_kill" {
+			return strconv.ParseUint(fields[1], 10, 64)
+		}
+	}
+	return 0, os.ErrNotExist
+}
+
 // SetCPUBandwidth set cpu.max quota period
 func (c *V2) SetCPUBandwidth(quota, period uint64) error {
 	if !c.control.CPU {

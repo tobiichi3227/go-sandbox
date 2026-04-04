@@ -36,6 +36,9 @@ type Cgroup interface {
 	// ProcessPeak reads maximum number of process ever existed in cgroup. Not exist in cgroup v1 or kernel < 6.1
 	ProcessPeak() (uint64, error)
 
+	// OOMEventCount reads total OOM kill count from memory.events (v2) or memory.oom_control (v1)
+	OOMEventCount() (uint64, error)
+
 	// SetCPUBandwidth sets the cpu bandwidth. Times in ns
 	SetCPUBandwidth(quota, period uint64) error
 

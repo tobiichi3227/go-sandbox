@@ -104,6 +104,7 @@ func (r *Runner) Run(c context.Context) (result runner.Result) {
 		// update resource usage and check against limits
 		userTime := time.Duration(rusage.Utime.Nano()) // ns
 		userMem := runner.Size(rusage.Maxrss << 10)    // bytes
+		exitStatus := wstatus.ExitStatus()
 
 		// check tle / mle
 		if userTime > r.Limit.TimeLimit {
@@ -122,16 +123,16 @@ func (r *Runner) Run(c context.Context) (result runner.Result) {
 				default:
 					status = runner.StatusSignalled
 				}
-				result.Status = status
-				result.ExitStatus = int(sig)
+				exitStatus = int(sig)
 			} else {
 				status = runner.StatusMemoryLimitExceeded
 			}
 		}
 		result = runner.Result{
-			Status: status,
-			Time:   userTime,
-			Memory: userMem,
+			Status:     status,
+			ExitStatus: exitStatus,
+			Time:       userTime,
+			Memory:     userMem,
 		}
 		if status != runner.StatusNormal {
 			return
